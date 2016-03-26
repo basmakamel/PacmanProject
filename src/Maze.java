@@ -28,6 +28,7 @@ public class Maze extends Parent {
     Group group = new Group();
     public Maze() {
 
+        //Rectangles background top and bottom
         Rectangle bg = new Rectangle(0, 0, MazeData.calcGridX(MazeData.GRID_SIZE_X + 2), MazeData.calcGridY(MazeData.GRID_SIZE_Y + 3));
         bg.setFill(Color.BLACK);
         bg.setCache(true);
@@ -35,10 +36,10 @@ public class Maze extends Parent {
 
 
 
-        // Inner border of outside wall
+        // Inner border of outside wall top and bottom(blue)
         group.getChildren().add(new WallRectangle(0, 0, MazeData.GRID_SIZE_X, MazeData.GRID_SIZE_Y));
 
-        // Top middle vertical wall
+        // Top middle vertical wall (blue)
         group.getChildren().add(new WallRectangle(14, -0.5f, 15, 4));
         group.getChildren().add(new WallBlackRectangle(13.8f, -1, 15.3f, 0));
 
@@ -68,10 +69,7 @@ public class Maze extends Parent {
         //cage and the gate
         group.getChildren().add(new WallRectangle(10, 12, 19, 17));
         group.getChildren().add(new WallRectangle(10.5f, 12.5f, 18.5f, 16.5f));
-        final Rectangle cageRect = new Rectangle(MazeData.calcGridX(13),
-                MazeData.calcGridY(12),
-                MazeData.GRID_GAP * 3,
-                MazeData.GRID_GAP / 2);
+        final Rectangle cageRect = new Rectangle(MazeData.calcGridX(13), MazeData.calcGridY(12), MazeData.GRID_GAP * 3, MazeData.GRID_GAP / 2);
         cageRect.setStroke(Color.GREY);
         cageRect.setFill(Color.GREY);
         cageRect.setCache(true);
@@ -140,6 +138,8 @@ public class Maze extends Parent {
         group.getChildren().add(new WallRectangle(MazeData.GRID_SIZE_X - 5, 15, MazeData.GRID_SIZE_X + 1, 20)); // outer wall below right side wall
         group.getChildren().add(new WallRectangle(MazeData.GRID_SIZE_X - 4.5f, 15.5f, MazeData.GRID_SIZE_X + 1, 19.5f)); // inner wall below right side door wall
 
+
+        //WallBlackRectangles to adjust display
         group.getChildren().add(new WallBlackRectangle(-2, 8, -0.5f, MazeData.GRID_SIZE_Y)); // black-out left garbage outside the wall
         group.getChildren().add(new WallBlackRectangle(-0.5f, 8, 0, 9.5f)); // black-out horizontal line inside outer-left wall above side door
         group.getChildren().add(new WallBlackRectangle(-0.5f, 19.5f, 0, MazeData.GRID_SIZE_Y)); // black-out horizontal lines inside outer-left wall below side door
@@ -159,79 +159,60 @@ public class Maze extends Parent {
         group.getChildren().add(new WallBlackLine(Color.BLUE, MazeData.GRID_SIZE_X + 0.5f, 19.5f, MazeData.GRID_SIZE_X + 0.5f, 20));
 
 
-
+        //add dots to the maze
+        //add dots horizontally
         putDotHorizontally(2,12,1);
         putDotHorizontally(17,27,1);
-
         putDotHorizontally(2,27,5);
-
         putDotHorizontally(2,5,8);
         putDotHorizontally(24,27,8);
-
         putDotHorizontally(10,13,8);
         putDotHorizontally(16,19,8);
-
         putDotHorizontally(2,12,21);
         putDotHorizontally(17,27,21);
-
         putDotHorizontally(2,2,24);
         putDotHorizontally(27,27,24);
-
         putDotHorizontally(7,12,24);
         putDotHorizontally(17,22,24);
-
         putDotHorizontally(2,5,27);
         putDotHorizontally(24,27,27);
-
         putDotHorizontally(10,12,27);
         putDotHorizontally(17,19,27);
+        putDotHorizontally(2,27,30);
 
-        putDotHorizontally(2,27,30); // bottom row
 
-
+        //add dots vertically
         putDotVertically(1,1,8);
         putDotVertically(28,1,8);
-
         putDotVertically(1,21,24);
         putDotVertically(28,21,24);
-
         putDotVertically(1,27,30);
         putDotVertically(28,27,30);
-
         putDotVertically(3,24,27);
         putDotVertically(26,24,27);
-
         putDotVertically(6,1,27);
         putDotVertically(23,1,27);
-
         putDotVertically(9,5,8);
         putDotVertically(20,5,8);
-
         putDotVertically(9,24,27);
         putDotVertically(20,24,27);
-
         putDotVertically(13,1,4);
         putDotVertically(16,1,4);
-
         putDotVertically(13,21,24);
         putDotVertically(16,21,24);
-
         putDotVertically(13,27,30);
         putDotVertically(16,27,30);
-
-
-
 
         getChildren().add(group);
     }
 
     public final Dot createDot(int x1, int y1, int type) {
-//  public function createDot( x1: Number,  y1:Number, type:Integer ): Dot {
+
         Dot d = new Dot((int)MazeData.calcGridX(x1),(int) MazeData.calcGridY(y1), type);
         if (type == MazeData.MAGIC_DOT) {
 
-            d.playTimeline();
-          //  d.shouldStopAnimation.bind(gamePaused.or(waitForStart)); // patweb
+            d.playTimeline(); // for the dot to blink
+
         }
         // set the dot type in data model
         MazeData.setData(x1, y1, type);
@@ -245,20 +226,16 @@ public class Maze extends Parent {
     public final void putDotHorizontally(int x1, int x2, int y) {
 
         Dot dot;
-//    var dots =
-//    for ( x in [ x1..x2] )
         for (int x = x1; x <= x2; x++) {
             if (MazeData.getData(x, y) == MazeData.EMPTY) {
                 int dotType;
-//      var dotType: Integer;
 
                 if ((x == 28 || x == 1) && (y == 3 || y == 24)) {
-                    dotType = MazeData.MAGIC_DOT;
+                    dotType = MazeData.MAGIC_DOT; // magic dot in corners
                 } else {
-                    dotType = MazeData.NORMAL_DOT;
+                    dotType = MazeData.NORMAL_DOT; // normal dot everywhere else
                 }
-
-                dot = createDot(x, y, dotType);
+                dot = createDot(x, y, dotType); // create dot
 
                 // insert dots into group
                 group.getChildren().add(dot);
@@ -269,7 +246,7 @@ public class Maze extends Parent {
                 }
             }
         }
-    
+
 
     public final void putDotVertically(int x, int y1, int y2) {
         Dot dot;
@@ -278,10 +255,10 @@ public class Maze extends Parent {
                 int dotType;
 
                 if ( (x == 28 || x == 1) && (y == 3 || y == 24) ) {
-                    dotType = MazeData.MAGIC_DOT;
+                    dotType = MazeData.MAGIC_DOT; // magic dot in corners
                 }
                 else {
-                    dotType = MazeData.NORMAL_DOT;
+                    dotType = MazeData.NORMAL_DOT; // magic dot everywhere else
                 }
 
                 dot = createDot(x, y, dotType);

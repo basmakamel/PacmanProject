@@ -64,7 +64,6 @@ public class Dot extends Parent{
 
     public void playTimeline() {
         if (timeline == null) {
-//    timeline = createTimeline();
             createTimeline();
         }
 
@@ -79,14 +78,11 @@ public class Dot extends Parent{
         }
 
         animationRadius += delta;
-//    var x = Math.abs(animationRadius) + 3;
         int x1 = Math.abs(animationRadius) + 3;
 
         if (x1 > 5) {
             delta = -delta;
         }
-
-//    r = x1;
         this.radius.set(x1);
 
     }
