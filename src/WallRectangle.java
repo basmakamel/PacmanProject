@@ -25,7 +25,8 @@ public class WallRectangle extends Parent {
         r.setArcHeight(12);
         r.setCache(true);
         getChildren().add(r);
-        MazeData.setBlockMazeData(Math.round(x1), Math.round(y1), Math.round(x2), Math.round(y2));
+        MazeData.setBlockMazeData(Math.round(x1), Math.round(y1), Math.round(x2), Math.round(y2)); //initialise the data model while
+        //drawing the maze
     }
 
 }
