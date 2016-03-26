@@ -15,6 +15,7 @@ public class MazeData {
     public final static int GRID_STROKE = 2;
     final static int xoffset = GRID_GAP * 2;
     final static int yoffset = GRID_GAP * 2;
+    private static final Object[][] DOT_POINTERS = new Object[GRID_SIZE_X + 1][GRID_SIZE_Y + 1];
 
     private static int makeInRange(int a, char coordinate) {
 
@@ -68,4 +69,13 @@ public class MazeData {
                 DOT_TOTAL++;
             }
         } // end setData
+
+
+    public static Object getDot(int x, int y) {
+        return DOT_POINTERS[x][y];
+    }
+
+    public static void setDot(int x, int y, Object dot) {
+        DOT_POINTERS[x][y] = dot;
+    }
     }
