@@ -19,10 +19,6 @@ public class Main extends Application {
         primaryStage.setTitle("Pac-Man");
         primaryStage.setWidth(MazeData.calcGridX(MazeData.GRID_SIZE_X + 2));
         primaryStage.setHeight(MazeData.calcGridY(MazeData.GRID_SIZE_Y + 4));
-//    scene: Scene{
-//            content: [ Maze {}
-//            ]
-//           }
 
         final Group root = new Group();
         final Scene scene = new Scene(root);

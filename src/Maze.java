@@ -26,13 +26,91 @@ import javafx.scene.paint.Color;
 
 public class Maze extends Parent {
     Group group = new Group();
+    public BooleanProperty gamePaused;
+    public final Ghost[] ghosts;
+    private boolean addLifeFlag;
+    private final SimpleIntegerProperty livesCount;
+    public PacMan pacMan;
+    private static final Image PACMAN_IMAGE = new Image(Maze.class.getResourceAsStream("left1.png"));
+
+
+
+
     public Maze() {
 
-        //Rectangles background top and bottom
+        pacMan = new PacMan(this, 15, 24);
+
+        final Ghost ghostBlinky = new Ghost(
+                new Image(getClass().getResourceAsStream("ghostred1.png")),
+                new Image(getClass().getResourceAsStream("ghostred2.png")),
+                this,
+               /* pacMan,*/
+                15, // x
+                14, // y
+                0,  // x Direction
+                -1, // y Direction
+                1);
+
+        final Ghost ghostPinky = new Ghost(
+                new Image(getClass().getResourceAsStream("ghostpink1.png")),
+                new Image(getClass().getResourceAsStream("ghostpink2.png")),
+                this,
+                // pacMan,
+                14,
+                15,
+                1,  // x Direction
+                0,  // y Direction
+                5);
+
+
+        final Ghost ghostInky = new Ghost(
+                new Image(getClass().getResourceAsStream("ghostcyan1.png")),
+                new Image(getClass().getResourceAsStream("ghostcyan2.png")),
+                this,
+                //pacMan,
+                12,
+                15,
+                1,   // x Direction
+                0,   // y Direction
+                20);
+
+
+        final Ghost ghostClyde = new Ghost(
+                new Image(getClass().getResourceAsStream("ghostorange1.png")),
+                new Image(getClass().getResourceAsStream("ghostorange2.png")),
+                this,
+                // pacMan,
+                16,
+                15,
+                1,   // x Direction
+                0,   // y Direction
+                30);
+
+        ghosts = new Ghost[]{ghostBlinky, ghostPinky, ghostInky, ghostClyde};
+
+        livesCount = new SimpleIntegerProperty(2);
+
+        final ImageView livesImage1 = new ImageView(PACMAN_IMAGE);
+        livesImage1.setX(MazeData.calcGridX(18));
+        livesImage1.setY(MazeData.calcGridY(MazeData.GRID_SIZE_Y + 0.8f));
+        livesImage1.visibleProperty().bind(livesCount.greaterThan(0));
+        livesImage1.setCache(true);
+        final ImageView livesImage2 = new ImageView(PACMAN_IMAGE);
+        livesImage2.setX(MazeData.calcGridX(16));
+        livesImage2.setY(MazeData.calcGridY(MazeData.GRID_SIZE_Y + 0.8f));
+        livesImage2.visibleProperty().bind(livesCount.greaterThan(1));
+        livesImage2.setCache(true);
+        final ImageView livesImage3 = new ImageView(PACMAN_IMAGE);
+        livesImage3.setX(MazeData.calcGridX(14));
+        livesImage3.setY(MazeData.calcGridY(MazeData.GRID_SIZE_Y + 0.8f));
+        livesImage3.visibleProperty().bind(livesCount.greaterThan(2));
+        livesImage3.setCache(true);
+        gamePaused = new SimpleBooleanProperty(false);
         Rectangle bg = new Rectangle(0, 0, MazeData.calcGridX(MazeData.GRID_SIZE_X + 2), MazeData.calcGridY(MazeData.GRID_SIZE_Y + 3));
         bg.setFill(Color.BLACK);
         bg.setCache(true);
         group.getChildren().add(bg);
+
 
 
 
@@ -161,54 +239,58 @@ public class Maze extends Parent {
 
         //add dots to the maze
         //add dots horizontally
-        putDotHorizontally(2,12,1);
-        putDotHorizontally(17,27,1);
-        putDotHorizontally(2,27,5);
-        putDotHorizontally(2,5,8);
-        putDotHorizontally(24,27,8);
-        putDotHorizontally(10,13,8);
-        putDotHorizontally(16,19,8);
-        putDotHorizontally(2,12,21);
-        putDotHorizontally(17,27,21);
-        putDotHorizontally(2,2,24);
-        putDotHorizontally(27,27,24);
-        putDotHorizontally(7,12,24);
-        putDotHorizontally(17,22,24);
-        putDotHorizontally(2,5,27);
-        putDotHorizontally(24,27,27);
-        putDotHorizontally(10,12,27);
-        putDotHorizontally(17,19,27);
-        putDotHorizontally(2,27,30);
+        putDotHorizontally(2, 12, 1);
+        putDotHorizontally(17, 27, 1);
+        putDotHorizontally(2, 27, 5);
+        putDotHorizontally(2, 5, 8);
+        putDotHorizontally(24, 27, 8);
+        putDotHorizontally(10, 13, 8);
+        putDotHorizontally(16, 19, 8);
+        putDotHorizontally(2, 12, 21);
+        putDotHorizontally(17, 27, 21);
+        putDotHorizontally(2, 2, 24);
+        putDotHorizontally(27, 27, 24);
+        putDotHorizontally(7, 12, 24);
+        putDotHorizontally(17, 22, 24);
+        putDotHorizontally(2, 5, 27);
+        putDotHorizontally(24, 27, 27);
+        putDotHorizontally(10, 12, 27);
+        putDotHorizontally(17, 19, 27);
+        putDotHorizontally(2, 27, 30);
 
 
         //add dots vertically
-        putDotVertically(1,1,8);
-        putDotVertically(28,1,8);
-        putDotVertically(1,21,24);
-        putDotVertically(28,21,24);
-        putDotVertically(1,27,30);
-        putDotVertically(28,27,30);
-        putDotVertically(3,24,27);
-        putDotVertically(26,24,27);
-        putDotVertically(6,1,27);
-        putDotVertically(23,1,27);
-        putDotVertically(9,5,8);
-        putDotVertically(20,5,8);
-        putDotVertically(9,24,27);
-        putDotVertically(20,24,27);
-        putDotVertically(13,1,4);
-        putDotVertically(16,1,4);
-        putDotVertically(13,21,24);
-        putDotVertically(16,21,24);
-        putDotVertically(13,27,30);
-        putDotVertically(16,27,30);
+        putDotVertically(1, 1, 8);
+        putDotVertically(28, 1, 8);
+        putDotVertically(1, 21, 24);
+        putDotVertically(28, 21, 24);
+        putDotVertically(1, 27, 30);
+        putDotVertically(28, 27, 30);
+        putDotVertically(3, 24, 27);
+        putDotVertically(26, 24, 27);
+        putDotVertically(6, 1, 27);
+        putDotVertically(23, 1, 27);
+        putDotVertically(9, 5, 8);
+        putDotVertically(20, 5, 8);
+        putDotVertically(9, 24, 27);
+        putDotVertically(20, 24, 27);
+        putDotVertically(13, 1, 4);
+        putDotVertically(16, 1, 4);
+        putDotVertically(13, 21, 24);
+        putDotVertically(16, 21, 24);
+        putDotVertically(13, 27, 30);
+        putDotVertically(16, 27, 30);
 
         getChildren().add(group);
+        group.getChildren().addAll(ghosts);
+        group.getChildren().add(pacMan);
+
+
     }
 
     public final Dot createDot(int x1, int y1, int type) {
 
-        Dot d = new Dot((int)MazeData.calcGridX(x1),(int) MazeData.calcGridY(y1), type);
+        Dot d = new Dot((int) MazeData.calcGridX(x1), (int) MazeData.calcGridY(y1), type);
         if (type == MazeData.MAGIC_DOT) {
 
             d.playTimeline(); // for the dot to blink
@@ -239,13 +321,12 @@ public class Maze extends Parent {
 
                 // insert dots into group
                 group.getChildren().add(dot);
-            }
-            else {
-            //    if (DEBUG) {
-                    System.out.println("!! WARNING: Trying to place horizontal dots at occupied position (" + x + ", " + y + ")");
-                }
+            } else {
+                //    if (DEBUG) {
+                System.out.println("!! WARNING: Trying to place horizontal dots at occupied position (" + x + ", " + y + ")");
             }
         }
+    }
 
 
     public final void putDotVertically(int x, int y1, int y2) {
@@ -254,25 +335,30 @@ public class Maze extends Parent {
             if (MazeData.getData(x, y) == MazeData.EMPTY) {
                 int dotType;
 
-                if ( (x == 28 || x == 1) && (y == 3 || y == 24) ) {
+                if ((x == 28 || x == 1) && (y == 3 || y == 24)) {
                     dotType = MazeData.MAGIC_DOT; // magic dot in corners
-                }
-                else {
+                } else {
                     dotType = MazeData.NORMAL_DOT; // magic dot everywhere else
                 }
 
                 dot = createDot(x, y, dotType);
                 group.getChildren().add(dot);
-            }
-            else {
-             //   if (DEBUG) {
-                    System.out.println("!! WARNING: Trying to place vertical   dots at occupied position (" + x + ", " + y + ")");
-                }
+            } else {
+                //   if (DEBUG) {
+                System.out.println("!! WARNING: Trying to place vertical   dots at occupied position (" + x + ", " + y + ")");
             }
         }
-
-
     }
+
+    public void addLife() {
+
+        if (addLifeFlag) {
+            livesCount.set(livesCount.get() + 1);
+//      livesCount ++;
+            addLifeFlag = false;
+        }
+    }
+}
 
 
 

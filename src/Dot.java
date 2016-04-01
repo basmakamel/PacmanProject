@@ -27,8 +27,6 @@ public class Dot extends Parent{
     public Dot(int x, int y, int dotType) {
 
         this.shouldStopAnimation = new SimpleBooleanProperty(false);
-//    this.x = x; // not used - patweb
-//    this.y = y; // not used - patewb
         this.dotType = dotType;
 
         if (dotType == MazeData.MAGIC_DOT) {
